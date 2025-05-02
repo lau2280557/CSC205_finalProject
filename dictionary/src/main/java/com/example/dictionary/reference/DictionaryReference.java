@@ -21,44 +21,50 @@ public class DictionaryReference {
     private static Map<String, String> dictionary;
 
     static {
+
         try {
             readDictionaryFile();
         } catch (JsonProcessingException e) {
             System.err.println("There was a problem reading the dictionary file");
         }
+
     }
 
-    private DictionaryReference() {} //block instantiation
+    private DictionaryReference() {
+
+    }
 
     private static void readDictionaryFile() throws JsonProcessingException {
 
         StopWatch sw = new StopWatch();
         sw.start();
 
-        InputStream inputStream = ClassLoader.getSystemResourceAsStream("dictionary.json");
-        //InputStream inputStream = DictionaryReference.class.getClassLoader().getResourceAsStream("dictionary.json");
-
+        //InputStream inputStream = ClassLoader.getSystemResourceAsStream("dictionary.json");
+        InputStream inputStream = DictionaryReference.class.getClassLoader().getResourceAsStream("dictionary.json");
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
         String json = bufferedReader.lines()
-                        .collect(Collectors.joining("\n"));
+                                    .collect(Collectors.joining("\n"));
 
         ObjectMapper mapper = new ObjectMapper();
         dictionary = mapper.readValue(json, Map.class);
 
         sw.stop();
         long milliseconds = sw.getLastTaskTimeMillis();
-        String message = new StringBuilder().append("Dictionary created with ")
-                .append(dictionary.size())
-                .append(" entries in ")
-                .append(milliseconds)
-                .append(" ms").toString();
 
+        String message = new StringBuilder().append("Dictionary created with ")
+                                             .append(dictionary.size())
+                                             .append(" entries in ")
+                                             .append(milliseconds)
+                                             .append("ms")
+                                             .toString();
         logger.info(message);
+
     }
 
     public static Map<String, String> getDictionary() {
         return DictionaryReference.dictionary;
     }
+
 }

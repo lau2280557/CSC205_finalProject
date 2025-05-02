@@ -1,6 +1,5 @@
 package com.example.aggregator.client;
 
-
 import com.example.aggregator.model.Entry;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;

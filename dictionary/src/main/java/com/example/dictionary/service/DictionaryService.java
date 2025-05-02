@@ -17,16 +17,18 @@ public class DictionaryService {
         String definition = DictionaryReference.getDictionary().get(word);
         Entry entry = new Entry(word, definition);
 
+        // validation
         if (definition == null) {
-            throw new WordNotFoundException(word + "is not found");
+            throw new WordNotFoundException("Word [" + word + "] not found.");
         }
 
         return entry;
     }
 
-
     public List<Entry> getWordsStartingWith(String s) {
-        return DictionaryReference.getDictionary().entrySet()
+
+        return DictionaryReference.getDictionary()
+                .entrySet()
                 .stream()
                 .filter(entry -> entry.getKey().startsWith(s))
                 .sorted(Map.Entry.comparingByKey())
@@ -35,7 +37,9 @@ public class DictionaryService {
     }
 
     public List<Entry> getWordsThatContain(String s) {
-        return DictionaryReference.getDictionary().entrySet()
+
+        return DictionaryReference.getDictionary()
+                .entrySet()
                 .stream()
                 .filter(entry -> entry.getKey().contains(s))
                 .sorted(Map.Entry.comparingByKey())
@@ -44,18 +48,22 @@ public class DictionaryService {
     }
 
     public List<Entry> getWordsThatContainConsecutiveDoubleLetters() {
-        return DictionaryReference.getDictionary().entrySet()
+
+        return DictionaryReference.getDictionary()
+                .entrySet()
                 .stream()
                 .filter(entry -> {
+
                     String word = entry.getKey();
                     boolean duplicateConsecutiveLetters = false;
-                    for (int x = 1; x < word.length(); x++) {
-                        if (word.charAt(x) == word.charAt(x - 1)) {
+                    for(int x = 1; x < word.length(); x++) {
+                        if(word.charAt(x) == word.charAt(x - 1)) {
                             duplicateConsecutiveLetters = true;
                             break;
                         }
                     }
                     return duplicateConsecutiveLetters;
+
                 })
                 .sorted(Map.Entry.comparingByKey())
                 .map(entry -> new Entry(entry.getKey(), entry.getValue()))

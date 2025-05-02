@@ -1,11 +1,10 @@
 package com.example.aggregator.controller;
 
-
 import com.example.aggregator.model.Entry;
 import com.example.aggregator.service.AggregatorService;
-import io.github.resilience4j.core.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,17 +21,34 @@ public class AggregatorController {
         this.aggregatorService = aggregatorService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public List<Entry> helloWorld() {
+
         List<Entry> entries = List.of(
                 aggregatorService.getDefinitionFor("hello"),
-                aggregatorService.getDefinitionFor("world"));
+                aggregatorService.getDefinitionFor("world")
+        );
         return entries;
     }
+
     @GetMapping("getDefinitionFor/{word}")
     public Entry getDefinitionFor(@PathVariable String word) {
 
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         Entry entry = aggregatorService.getDefinitionFor(word);
+        stopWatch.stop();
+
+        long nanoSeconds = stopWatch.getLastTaskTimeNanos();
+        String message = new StringBuilder()
+                .append("Retrieved entry for [")
+                .append(word)
+                .append("] in ")
+                .append(nanoSeconds / 1000000.0)
+                .append("ms")
+                .toString();
+        logger.info(message);
+
         return entry;
     }
 }

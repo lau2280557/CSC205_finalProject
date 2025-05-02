@@ -16,4 +16,5 @@ public class AggregatorService {
     public Entry getDefinitionFor(String word) {
         return aggregatorRestClient.getDefinitionFor(word);
     }
+
 }

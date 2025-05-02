@@ -3,10 +3,12 @@ package com.example.aggregator.model;
 import java.util.Objects;
 
 public class Entry implements Comparable<Entry> {
+
     private String word;
     private String definition;
 
-    public Entry() {}
+    public Entry() {
+    }
 
     public Entry(String word, String definition) {
         this.word = word;
@@ -43,10 +45,11 @@ public class Entry implements Comparable<Entry> {
 
     @Override
     public String toString() {
-        return "Entry{" +
-                "word='" + word + '\'' +
-                ", definition='" + definition + '\'' +
-                '}';
+        final StringBuilder sb = new StringBuilder("Entry{");
+        sb.append("word='").append(word).append('\'');
+        sb.append(", definition='").append(definition).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 
     @Override

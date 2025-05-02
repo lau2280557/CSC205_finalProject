@@ -1,10 +1,12 @@
 package com.example.dictionary.model;
 
 public class Entry {
+
     String word;
     String definition;
 
-    public Entry() {}
+    public Entry() {
+    }
 
     public Entry(String word, String definition) {
         this.word = word;
@@ -29,9 +31,10 @@ public class Entry {
 
     @Override
     public String toString() {
-        return "Entry{" +
-                "word='" + word + '\'' +
-                ", definition='" + definition + '\'' +
-                '}';
+        final StringBuilder sb = new StringBuilder("Entry{");
+        sb.append("word='").append(word).append('\'');
+        sb.append(", definition='").append(definition).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }
