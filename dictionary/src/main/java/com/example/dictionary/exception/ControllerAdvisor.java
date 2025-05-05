@@ -14,6 +14,16 @@ public class ControllerAdvisor {
     // This class is used to handle exceptions globally for the Aggregator service.
     // It can be extended to include specific exception handling methods as needed.
 
+    @ExceptionHandler(WordNotFoundException.class)
+    public ResponseEntity<Object> handleWordNotFoundException(WordNotFoundException ex) {
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(body);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception ex) {
 
@@ -22,15 +32,5 @@ public class ControllerAdvisor {
         body.put("message", "An error occurred: " + ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(body);
-    }
-
-    @ExceptionHandler(WordNotFoundException.class)
-    public ResponseEntity<Object> handleWordNotFoundException(WordNotFoundException ex) {
-
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("message", "Word not found: " + ex.getMessage());
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(body);
     }
 }

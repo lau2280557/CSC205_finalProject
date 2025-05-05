@@ -21,7 +21,6 @@ public class AggregatorController {
         this.aggregatorService = aggregatorService;
     }
 
-
     @GetMapping("/")
     public List<Entry> helloWorld() {
 
@@ -53,8 +52,8 @@ public class AggregatorController {
         return entry;
     }
 
-    @GetMapping("getWordsThatContainSuccessiveLetterAndStartsWith/{chars}")
-    public List<Entry> getWordsThatContainSuccessiveLetterAndStartsWith(@PathVariable String chars) {
+    @GetMapping("getWordsThatContainSuccessiveLettersAndStartsWith/{chars}")
+    public List<Entry> getWordsThatContainSuccessiveLettersAndStartsWith(@PathVariable String chars) {
 
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
@@ -63,7 +62,9 @@ public class AggregatorController {
 
         long nanoSeconds = stopWatch.getLastTaskTimeNanos();
         String message = new StringBuilder()
-                .append("Retrieved entry for words with successive letters that contain [")
+                .append("Retrieved ")
+                .append(entry.size())
+                .append(" entries for words with successive letters that contain [")
                 .append(chars)
                 .append("] in ")
                 .append(nanoSeconds / 1000000.0)
